@@ -19,7 +19,8 @@ function Download-Anydesk
         $tmpfile = ""
         $tmpfile = [System.IO.Path]::GetTempFileName()
         $url = "https://download.anydesk.com/AnyDesk.exe"
-        Invoke-WebRequest -Uri $url -SkipCertificateCheck -OutFile $tmpfile
+        $client = New-Object System.Net.WebClient
+        $client.DownloadFile($url, $tmpfile)
         Unblock-File -Path $tmpfile -ErrorAction Stop
         $exefile = Join-Path -Path (Split-Path -Path $tmpfile -Parent) -ChildPath 'AnyDesk.exe'
         if (Test-Path $exefile) {
